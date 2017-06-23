@@ -1,7 +1,7 @@
 package hello
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/let-s-go/gin"
 	"net/http"
 )
 
