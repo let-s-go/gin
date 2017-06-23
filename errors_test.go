@@ -5,7 +5,7 @@
 package gin
 
 import (
-	"encoding/json"
+	json "github.com/let-s-go/go"
 	"errors"
 	"testing"
 
