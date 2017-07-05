@@ -5,7 +5,7 @@
 package binding
 
 import (
-	json "github.com/let-s-go/go"
+	json "github.com/let-s-go/jsoniter"
 
 	"net/http"
 )

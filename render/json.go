@@ -5,8 +5,9 @@
 package render
 
 import (
-	json "github.com/let-s-go/go"
 	"net/http"
+
+	json "github.com/let-s-go/jsoniter"
 )
 
 type (

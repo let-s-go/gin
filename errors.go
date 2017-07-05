@@ -6,9 +6,10 @@ package gin
 
 import (
 	"bytes"
-	json "github.com/let-s-go/go"
 	"fmt"
 	"reflect"
+
+	json "github.com/let-s-go/jsoniter"
 )
 
 type ErrorType uint64
