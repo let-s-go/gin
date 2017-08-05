@@ -5,10 +5,10 @@
 package gin
 
 import (
-	json "github.com/let-s-go/go"
 	"errors"
 	"testing"
 
+	"github.com/let-s-go/gin/json"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -32,7 +32,7 @@ func TestError(t *testing.T) {
 	})
 
 	jsonBytes, _ := json.Marshal(err)
-	assert.Equal(t, string(jsonBytes), "{\"error\":\"test error\",\"meta\":\"some data\"}")
+	assert.Equal(t, "{\"error\":\"test error\",\"meta\":\"some data\"}", string(jsonBytes))
 
 	err.SetMeta(H{
 		"status": "200",
@@ -54,6 +54,13 @@ func TestError(t *testing.T) {
 		"status": "200",
 		"data":   "some data",
 	})
+
+	type customError struct {
+		status string
+		data   string
+	}
+	err.SetMeta(customError{status: "200", data: "other data"})
+	assert.Equal(t, err.JSON(), customError{status: "200", data: "other data"})
 }
 
 func TestErrorSlice(t *testing.T) {
@@ -84,7 +91,7 @@ Error #03: third
 		H{"error": "third", "status": "400"},
 	})
 	jsonBytes, _ := json.Marshal(errs)
-	assert.Equal(t, string(jsonBytes), "[{\"error\":\"first\"},{\"error\":\"second\",\"meta\":\"some data\"},{\"error\":\"third\",\"status\":\"400\"}]")
+	assert.Equal(t, "[{\"error\":\"first\"},{\"error\":\"second\",\"meta\":\"some data\"},{\"error\":\"third\",\"status\":\"400\"}]", string(jsonBytes))
 	errs = errorMsgs{
 		{Err: errors.New("first"), Type: ErrorTypePrivate},
 	}
