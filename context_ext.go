@@ -21,6 +21,19 @@ func (c *Context) QueryBool(key string) bool {
 	return false
 }
 
+func (c *Context) QueryIntArray(key string) []int {
+	ss := c.QueryArray(key)
+	if len(ss) > 0 {
+		values := make([]int, len(ss))
+		for i, s := range ss {
+			value, _ := strconv.Atoi(s)
+			values[i] = value
+		}
+		return values
+	}
+	return nil
+}
+
 func (c *Context) RHeader(key string) string {
 	return c.Request.Header.Get(key)
 }
