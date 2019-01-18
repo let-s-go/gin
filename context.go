@@ -45,6 +45,7 @@ type Context struct {
 	Request   *http.Request
 	Writer    ResponseWriter
 
+	FullPath string
 	Params   Params
 	handlers HandlersChain
 	index    int8

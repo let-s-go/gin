@@ -332,8 +332,9 @@ func (engine *Engine) handleHTTPRequest(context *Context) {
 		if t[i].method == httpMethod {
 			root := t[i].root
 			// Find route in tree
-			handlers, params, tsr := root.getValue(path, context.Params, unescape)
+			handlers, params, tsr, fullPath := root.getValue2(path, context.Params, unescape)
 			if handlers != nil {
+				context.FullPath = fullPath
 				context.handlers = handlers
 				context.Params = params
 				context.Next()

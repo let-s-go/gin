@@ -86,6 +86,7 @@ const (
 )
 
 type node struct {
+	fullPath  string
 	path      string
 	wildChild bool
 	nType     nodeType
@@ -148,6 +149,7 @@ func (n *node) addRoute(path string, handlers HandlersChain) {
 			// Split edge
 			if i < len(n.path) {
 				child := node{
+					fullPath:  n.fullPath,
 					path:      n.path[i:],
 					wildChild: n.wildChild,
 					indices:   n.indices,
@@ -166,6 +168,7 @@ func (n *node) addRoute(path string, handlers HandlersChain) {
 				n.children = []*node{&child}
 				// []byte for proper unicode char conversion, see #65
 				n.indices = string([]byte{n.path[i]})
+				n.fullPath = ""
 				n.path = path[:i]
 				n.handlers = nil
 				n.wildChild = false
@@ -234,6 +237,7 @@ func (n *node) addRoute(path string, handlers HandlersChain) {
 				if n.handlers != nil {
 					panic("handlers are already registered for path ''" + fullPath + "'")
 				}
+				n.fullPath = fullPath
 				n.handlers = handlers
 			}
 			return
@@ -340,6 +344,7 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 
 			// second node: node holding the variable
 			child = &node{
+				fullPath:  fullPath,
 				path:      path[i:],
 				nType:     catchAll,
 				maxParams: 1,
@@ -353,6 +358,7 @@ func (n *node) insertChild(numParams uint8, path string, fullPath string, handle
 	}
 
 	// insert remaining path part and handle to the leaf
+	n.fullPath = fullPath
 	n.path = path[offset:]
 	n.handlers = handlers
 }
